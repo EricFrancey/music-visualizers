@@ -28,7 +28,7 @@ class SpaceMusicVisualizer:
         # Video settings
         self.fps = 30
         self.frame_count = int(self.duration * self.fps)
-        self.width, self.height = 1920, 1080  # Full HD for YouTube
+        self.width, self.height = 1280, 720  # 720p HD
         
         # Space theme settings
         self.stars = self._generate_starfield(200)  # Generate 200 stars
