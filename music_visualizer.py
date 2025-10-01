@@ -170,8 +170,11 @@ class SpaceMusicVisualizer:
         max_radius = min(self.width, self.height) // 4  # Max 1/4 of smallest dimension
         planet_radius = min(planet_radius, max_radius)
         
+        # Determine color based on which frequency band has the highest energy
+        dominant_band = max(band_energies.items(), key=lambda x: x[1])[0]
+        glow_color = self.cosmic_colors[dominant_band]
+        
         # Draw planet with glow effect
-        glow_color = self.cosmic_colors['bass']
         for i in range(5, 0, -1):
             alpha = 0.2 * i
             color = tuple(int(c * alpha) for c in glow_color)
