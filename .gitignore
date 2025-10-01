@@ -1,0 +1,37 @@
+# Audio files directory
+audio/
+
+# Image files directory
+img/
+
+# Temporary files
+temp_frames/
+temp-audio.m4a
+
+# Output video files
+*_Visualizer.mp4
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -320,18 +320,54 @@ class SpaceMusicVisualizer:
         
         print(f"Video saved as {self.output_file}")
 
-def main():
-    audio_file = "audio/LegendsHorizon.mp3"
-    output_file = "LegendsHorizon_Visualizer.mp4"
+def get_audio_files():
+    """Get all audio files from the audio directory"""
+    audio_dir = "audio"
+    if not os.path.exists(audio_dir):
+        print(f"Error: {audio_dir} directory not found!")
+        return []
     
-    if not os.path.exists(audio_file):
-        print(f"Error: {audio_file} not found!")
+    # Supported audio formats
+    audio_extensions = ['.mp3', '.wav', '.flac', '.m4a', '.aac', '.ogg']
+    audio_files = []
+    
+    for file in os.listdir(audio_dir):
+        if any(file.lower().endswith(ext) for ext in audio_extensions):
+            audio_files.append(os.path.join(audio_dir, file))
+    
+    return audio_files
+
+def main():
+    audio_files = get_audio_files()
+    
+    if not audio_files:
+        print("No audio files found in the audio/ directory!")
+        print("Supported formats: .mp3, .wav, .flac, .m4a, .aac, .ogg")
         return
     
-    print("Starting space music visualizer generation...")
-    visualizer = SpaceMusicVisualizer(audio_file, output_file)
-    visualizer.generate_video()
-    print("Space visualizer complete!")
+    print(f"Found {len(audio_files)} audio file(s) to process:")
+    for audio_file in audio_files:
+        print(f"  - {audio_file}")
+    
+    print("\nStarting space music visualizer generation...")
+    
+    for i, audio_file in enumerate(audio_files, 1):
+        # Get the base name without extension for output file naming
+        base_name = os.path.splitext(os.path.basename(audio_file))[0]
+        output_file = f"{base_name}_Visualizer.mp4"
+        
+        print(f"\n[{i}/{len(audio_files)}] Processing: {audio_file}")
+        print(f"Output will be saved as: {output_file}")
+        
+        try:
+            visualizer = SpaceMusicVisualizer(audio_file, output_file)
+            visualizer.generate_video()
+            print(f"✓ Completed: {output_file}")
+        except Exception as e:
+            print(f"✗ Error processing {audio_file}: {str(e)}")
+            continue
+    
+    print(f"\nAll visualizers complete! Processed {len(audio_files)} file(s).")
 
 if __name__ == "__main__":
     main()
