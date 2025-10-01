@@ -300,7 +300,7 @@ class SpaceMusicVisualizer:
         
         # Add bottom text with audio info
         audio_name = os.path.splitext(os.path.basename(self.audio_file))[0]
-        bottom_text = f"{audio_name} - {frame_time:.1f}s"
+        bottom_text = f"{audio_name}"
         
         # Add glow effect to bottom text
         for i in range(4, 0, -1):
