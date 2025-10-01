@@ -46,6 +46,9 @@ class SpaceMusicVisualizer:
             'treble': (255, 255, 255)   # White
         }
         
+        # Pre-load and resize the space image for performance
+        self.space_img = self._load_space_image()
+        
     def _create_frequency_bands(self):
         """Create frequency bands for visualization"""
         bands = []
@@ -80,6 +83,26 @@ class SpaceMusicVisualizer:
             }
             stars.append(star)
         return stars
+    
+    def _load_space_image(self):
+        """Load and preprocess the space image for performance"""
+        img_path = "img/space_transparent.png"
+        if os.path.exists(img_path):
+            # Load the image
+            space_img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
+            
+            if space_img is not None:
+                # Calculate new dimensions (100 pixels wide, maintain aspect ratio)
+                target_width = 100
+                height, width = space_img.shape[:2]
+                aspect_ratio = height / width
+                target_height = int(target_width * aspect_ratio)
+                
+                # Resize the image once
+                resized_img = cv2.resize(space_img, (target_width, target_height))
+                return resized_img
+        
+        return None
     
     def get_band_energy(self, frame_idx):
         """Get energy for each frequency band at a given frame"""
@@ -251,19 +274,44 @@ class SpaceMusicVisualizer:
                 cv2.circle(frame, (x, y), size, color, -1)
     
     def _draw_title(self, frame, frame_time):
-        """Draw the title with space styling"""
-        title_text = f"Legends Horizon - {frame_time:.1f}s"
+        """Draw the space image in the top left corner"""
+        # Use pre-loaded space image for better performance
+        if self.space_img is not None:
+            # Position in top left corner (50 pixels from edges)
+            x_offset, y_offset = 50, 50
+            target_height, target_width = self.space_img.shape[:2]
+            
+            # Handle transparency if the image has an alpha channel
+            if self.space_img.shape[2] == 4:  # RGBA image
+                # Extract alpha channel
+                alpha = self.space_img[:, :, 3] / 255.0
+                
+                # Extract RGB channels
+                rgb = self.space_img[:, :, :3]
+                
+                # Blend with background
+                for c in range(3):
+                    frame[y_offset:y_offset+target_height, x_offset:x_offset+target_width, c] = \
+                        frame[y_offset:y_offset+target_height, x_offset:x_offset+target_width, c] * (1 - alpha) + \
+                        rgb[:, :, c] * alpha
+            else:
+                # No alpha channel, just overlay
+                frame[y_offset:y_offset+target_height, x_offset:x_offset+target_width] = self.space_img
         
-        # Add glow effect to title
-        for i in range(3, 0, -1):
-            color_intensity = 100 * i
-            cv2.putText(frame, title_text, 
-                       (50 + i, 100 + i), cv2.FONT_HERSHEY_SIMPLEX, 2, 
-                       (color_intensity, color_intensity, color_intensity), 3)
+        # Add bottom text with audio info
+        audio_name = os.path.splitext(os.path.basename(self.audio_file))[0]
+        bottom_text = f"{audio_name} - {frame_time:.1f}s"
         
-        # Main title
-        cv2.putText(frame, title_text, 
-                   (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 3)
+        # Add glow effect to bottom text
+        for i in range(4, 0, -1):
+            color_intensity = 30 * i
+            cv2.putText(frame, bottom_text, 
+                       (50 + i, self.height - 50 + i), cv2.FONT_HERSHEY_SIMPLEX, 1.2, 
+                       (color_intensity, color_intensity + 20, color_intensity + 40), 3)
+        
+        # Main bottom text with cosmic purple color
+        cv2.putText(frame, bottom_text, 
+                   (50, self.height - 50), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (237, 21, 21), 3)
     
     def generate_video(self):
         """Generate the complete video using MoviePy directly"""
