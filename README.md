@@ -20,9 +20,9 @@ Master track:
 
 ### EQ:  
 - subtractive EQ on the mixer track for individual instruments  
-- effects  
+- effects and compression in between
 - additive EQ on instrument or master track  
-- no big carves in EQ, for dramatic low/high cutoffs  
+- no big carves in EQ, no dramatic low/high cutoffs  
 - if you have above, level out the EQ some and adjust the volume slider for that mixer track  
 
 ### Panning:  
