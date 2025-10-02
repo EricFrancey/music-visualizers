@@ -1,4 +1,5 @@
-# Mastering chain
+# HOW-TO
+## Mastering chain
 
 ### Mixing:
 - Tempo, instruments, layering, input gain (before mixer) etc.  
