@@ -47,6 +47,7 @@ Master track:
 ### LUFS:  
 - Must be last  
 - Play entire song for youlean  
+- Spot check for short term spikes. If it sounds good, don't bother.
 - If too loud or too quiet adjust limiter gain knob and try agin until around -14 LUFS.  
 
-### Export the .WAV file to be used in the visualizer. Place in /audio folder. Place images in /img folder.
+### Export the .WAV file to be used in the visualizer. Place in /audio folder. Place logo image in /img folder.
