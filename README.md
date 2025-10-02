@@ -37,7 +37,7 @@ Master track:
 
 ### Compression:  
 - Add to instruments individually or on master chain  
-- Use a preset if you can, or ajdust threshold and gain until it sounds good  
+- Use a preset if you can, or adjust threshold and gain until it sounds good  
 - You can use multiple compressors  
 
 ### Gain (limiter):  
