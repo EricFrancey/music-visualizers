@@ -325,15 +325,15 @@ class SpaceMusicVisualizer:
         bottom_text = f"{audio_name}"
         
         # Add glow effect to bottom text
-        for i in range(4, 0, -1):
-            color_intensity = 30 * i
-            cv2.putText(frame, bottom_text, 
-                       (50 + i, self.height - 50 + i), cv2.FONT_HERSHEY_SIMPLEX, 1.2, 
-                       (color_intensity, color_intensity + 20, color_intensity + 40), 3)
+        # for i in range(4, 0, -1):
+        #     color_intensity = 30 * i
+        #     cv2.putText(frame, bottom_text, 
+        #                (50 + i, self.height - 50 + i), cv2.FONT_HERSHEY_TRIPLEX, 1.2, 
+        #                (color_intensity, color_intensity + 20, color_intensity + 40), 3)
         
         # Main bottom text with color from palette
         cv2.putText(frame, bottom_text, 
-                   (50, self.height - 50), cv2.FONT_HERSHEY_SIMPLEX, 1.2, self.text_color, 3)
+                   (50, self.height - 50), cv2.FONT_HERSHEY_DUPLEX, 1.2, self.text_color, 3)
     
     def generate_video(self):
         """Generate the complete video using MoviePy directly"""

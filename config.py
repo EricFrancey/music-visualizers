@@ -273,6 +273,114 @@ COLOR_PALETTES = {
         },
         'background_base': (15, 15, 15), # Dark gray
         'text_color': (169, 169, 169)   # Dark gray
+    },
+    
+    'greens': {
+        'nebula_colors': [
+            (0, 100, 0),       # Dark green
+            (0, 128, 0),       # Green
+            (0, 255, 0),       # Lime
+            (50, 205, 50),     # Lime green
+            (144, 238, 144)    # Light green
+        ],
+        'cosmic_colors': {
+            'bass': (0, 100, 0),        # Dark green
+            'low_mid': (0, 128, 0),     # Green
+            'high_mid': (0, 255, 0),    # Lime
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 20, 5),   # Dark green
+        'text_color': (0, 255, 0)       # Lime
+    },
+    
+    'purples': {
+        'nebula_colors': [
+            (75, 0, 130),      # Indigo
+            (128, 0, 128),     # Purple
+            (138, 43, 226),    # Blue violet
+            (147, 112, 219),   # Medium slate blue
+            (186, 85, 211)     # Medium orchid
+        ],
+        'cosmic_colors': {
+            'bass': (75, 0, 130),       # Indigo
+            'low_mid': (128, 0, 128),   # Purple
+            'high_mid': (138, 43, 226), # Blue violet
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (10, 5, 20),  # Dark purple
+        'text_color': (138, 43, 226)    # Blue violet
+    },
+    
+    'yellows': {
+        'nebula_colors': [
+            (184, 134, 11),    # Dark goldenrod
+            (255, 215, 0),     # Gold
+            (255, 255, 0),     # Yellow
+            (255, 255, 224),   # Light yellow
+            (255, 250, 205)    # Lemon chiffon
+        ],
+        'cosmic_colors': {
+            'bass': (184, 134, 11),     # Dark goldenrod
+            'low_mid': (255, 215, 0),   # Gold
+            'high_mid': (255, 255, 0),  # Yellow
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (20, 20, 5),  # Dark yellow-brown
+        'text_color': (255, 255, 0)     # Yellow
+    },
+    
+    'coral': {
+        'nebula_colors': [
+            (255, 127, 80),    # Coral
+            (255, 99, 71),     # Tomato
+            (255, 69, 0),      # Red orange
+            (255, 160, 122),   # Light salmon
+            (255, 192, 203)    # Pink
+        ],
+        'cosmic_colors': {
+            'bass': (255, 127, 80),     # Coral
+            'low_mid': (255, 99, 71),   # Tomato
+            'high_mid': (255, 69, 0),   # Red orange
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (20, 10, 5),  # Dark coral
+        'text_color': (255, 127, 80)    # Coral
+    },
+    
+    'bright': {
+        'nebula_colors': [
+            (255, 0, 255),     # Magenta
+            (0, 255, 255),     # Cyan
+            (255, 255, 0),     # Yellow
+            (0, 255, 0),       # Lime
+            (255, 0, 0)        # Red
+        ],
+        'cosmic_colors': {
+            'bass': (255, 0, 255),      # Magenta
+            'low_mid': (0, 255, 255),   # Cyan
+            'high_mid': (255, 255, 0),  # Yellow
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 5, 5),    # Black
+        'text_color': (255, 255, 255)   # White
+    },
+    
+    'strong': {
+        'nebula_colors': [
+            (139, 0, 0),       # Dark red
+            (0, 0, 139),       # Dark blue
+            (0, 100, 0),       # Dark green
+            (128, 0, 128),     # Purple
+            (255, 140, 0)      # Dark orange
+        ],
+        'cosmic_colors': {
+            'bass': (139, 0, 0),        # Dark red
+            'low_mid': (0, 0, 139),     # Dark blue
+            'high_mid': (0, 100, 0),    # Dark green
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 5, 5),    # Black
+        'text_color': (255, 255, 255)   # White
     }
 }
 

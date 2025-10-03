@@ -273,6 +273,114 @@ COLOR_PALETTES = {
         },
         'background_base': (15, 15, 15), # Dark gray
         'text_color': (169, 169, 169)   # Dark gray
+    },
+
+     'greens': {
+        'nebula_colors': [
+            (0, 100, 0),       # Dark green (BGR)
+            (0, 128, 0),       # Green (BGR)
+            (0, 255, 0),       # Lime (BGR)
+            (50, 205, 50),     # Lime green (BGR)
+            (144, 238, 144)    # Light green (BGR)
+        ],
+        'cosmic_colors': {
+            'bass': (0, 100, 0),        # Dark green (BGR)
+            'low_mid': (0, 128, 0),     # Green (BGR)
+            'high_mid': (0, 255, 0),    # Lime (BGR)
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 20, 5),   # Dark green (BGR)
+        'text_color': (0, 255, 0)       # Lime (BGR)
+    },
+    
+    'purples': {
+        'nebula_colors': [
+            (130, 0, 75),      # Indigo (BGR)
+            (128, 0, 128),     # Purple (BGR)
+            (226, 43, 138),    # Blue violet (BGR)
+            (219, 112, 147),   # Medium slate blue (BGR)
+            (211, 85, 186)     # Medium orchid (BGR)
+        ],
+        'cosmic_colors': {
+            'bass': (130, 0, 75),       # Indigo (BGR)
+            'low_mid': (128, 0, 128),   # Purple (BGR)
+            'high_mid': (226, 43, 138), # Blue violet (BGR)
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (20, 5, 10),  # Dark purple (BGR)
+        'text_color': (226, 43, 138)    # Blue violet (BGR)
+    },
+    
+    'yellows': {
+        'nebula_colors': [
+            (11, 134, 184),    # Dark goldenrod (BGR)
+            (0, 215, 255),     # Gold (BGR)
+            (0, 255, 255),     # Yellow (BGR)
+            (224, 255, 255),   # Light yellow (BGR)
+            (205, 250, 255)    # Lemon chiffon (BGR)
+        ],
+        'cosmic_colors': {
+            'bass': (11, 134, 184),     # Dark goldenrod (BGR)
+            'low_mid': (0, 215, 255),   # Gold (BGR)
+            'high_mid': (0, 255, 255),  # Yellow (BGR)
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 20, 20),  # Dark yellow-brown (BGR)
+        'text_color': (0, 255, 255)     # Yellow (BGR)
+    },
+    
+    'coral': {
+        'nebula_colors': [
+            (80, 127, 255),    # Coral (BGR)
+            (71, 99, 255),     # Tomato (BGR)
+            (0, 69, 255),      # Red orange (BGR)
+            (122, 160, 255),   # Light salmon (BGR)
+            (203, 192, 255)    # Pink (BGR)
+        ],
+        'cosmic_colors': {
+            'bass': (80, 127, 255),     # Coral (BGR)
+            'low_mid': (71, 99, 255),   # Tomato (BGR)
+            'high_mid': (0, 69, 255),   # Red orange (BGR)
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 10, 20),  # Dark coral (BGR)
+        'text_color': (80, 127, 255)    # Coral (BGR)
+    },
+    
+    'bright': {
+        'nebula_colors': [
+            (255, 0, 255),     # Magenta (BGR)
+            (255, 255, 0),     # Cyan (BGR)
+            (0, 255, 255),     # Yellow (BGR)
+            (0, 255, 0),       # Lime (BGR)
+            (0, 0, 255)        # Red (BGR)
+        ],
+        'cosmic_colors': {
+            'bass': (255, 0, 255),      # Magenta (BGR)
+            'low_mid': (255, 255, 0),   # Cyan (BGR)
+            'high_mid': (0, 255, 255),  # Yellow (BGR)
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 5, 5),    # Black
+        'text_color': (255, 255, 255)   # White
+    },
+    
+    'strong': {
+        'nebula_colors': [
+            (0, 0, 139),       # Dark red (BGR)
+            (139, 0, 0),       # Dark blue (BGR)
+            (0, 100, 0),       # Dark green (BGR)
+            (128, 0, 128),     # Purple (BGR)
+            (0, 140, 255)      # Dark orange (BGR)
+        ],
+        'cosmic_colors': {
+            'bass': (0, 0, 139),        # Dark red (BGR)
+            'low_mid': (139, 0, 0),     # Dark blue (BGR)
+            'high_mid': (0, 100, 0),    # Dark green (BGR)
+            'treble': (255, 255, 255)   # White
+        },
+        'background_base': (5, 5, 5),    # Black
+        'text_color': (255, 255, 255)   # White
     }
 }
 
