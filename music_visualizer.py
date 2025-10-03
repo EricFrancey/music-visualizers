@@ -93,7 +93,7 @@ class SpaceMusicVisualizer:
             
             if space_img is not None:
                 # Calculate new dimensions (100 pixels wide, maintain aspect ratio)
-                target_width = 100
+                target_width = 200
                 height, width = space_img.shape[:2]
                 aspect_ratio = height / width
                 target_height = int(target_width * aspect_ratio)
@@ -311,7 +311,7 @@ class SpaceMusicVisualizer:
         
         # Main bottom text with cosmic purple color
         cv2.putText(frame, bottom_text, 
-                   (50, self.height - 50), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (237, 21, 21), 3)
+                   (50, self.height - 50), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 200, 50), 3)
     
     def generate_video(self):
         """Generate the complete video using MoviePy directly"""
@@ -402,10 +402,14 @@ def main():
     
     print("\nStarting space music visualizer generation...")
     
+    # Ensure output directory exists
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
+    
     for i, audio_file in enumerate(audio_files, 1):
         # Get the base name without extension for output file naming
         base_name = os.path.splitext(os.path.basename(audio_file))[0]
-        output_file = f"{base_name}_Visualizer.mp4"
+        output_file = os.path.join(output_dir, f"{base_name}_Visualizer.mp4")
         
         print(f"\n[{i}/{len(audio_files)}] Processing: {audio_file}")
         print(f"Output will be saved as: {output_file}")

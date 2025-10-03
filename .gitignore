@@ -4,12 +4,15 @@ audio/
 # Image files directory
 img/
 
+# Output files directory
+output/
+
+# Example files directory
+example/
+
 # Temporary files
 temp_frames/
 temp-audio.m4a
-
-# Output video files
-*_Visualizer.mp4
 
 # Python cache
 __pycache__/
