@@ -5,11 +5,45 @@ import os
 from moviepy.editor import VideoFileClip, AudioFileClip
 import math
 import random
+import argparse
+import importlib.util
+
+def load_config_module(use_inverted=False):
+    """
+    Dynamically load the appropriate config module
+    
+    Args:
+        use_inverted (bool): If True, load config_inverted.py, otherwise load config.py
+        
+    Returns:
+        module: The loaded config module
+    """
+    config_file = "config_inverted.py" if use_inverted else "config.py"
+    
+    spec = importlib.util.spec_from_file_location("config", config_file)
+    config_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(config_module)
+    
+    return config_module
 
 class SpaceMusicVisualizer:
-    def __init__(self, audio_file, output_file="visualizer_output.mp4"):
+    def __init__(self, audio_file, output_file="visualizer_output.mp4", palette_name="cool", config_module=None):
         self.audio_file = audio_file
         self.output_file = output_file
+        self.palette_name = palette_name
+        
+        # Load config module if not provided
+        if config_module is None:
+            config_module = load_config_module()
+        self.config = config_module
+        
+        # Load color palette from config
+        self.palette = self.config.get_palette(palette_name)
+        self.nebula_colors = self.palette['nebula_colors']
+        self.cosmic_colors = self.palette['cosmic_colors']
+        self.background_base = self.palette['background_base']
+        self.text_color = self.palette['text_color']
+        
         self.y, self.sr = librosa.load(audio_file)
         self.duration = len(self.y) / self.sr
         
@@ -25,26 +59,14 @@ class SpaceMusicVisualizer:
         # Create frequency bands
         self.freq_bands = self._create_frequency_bands()
         
-        # Video settings
-        self.fps = 30
+        # Video settings from config
+        self.fps = self.config.VIDEO_SETTINGS['fps']
         self.frame_count = int(self.duration * self.fps)
-        self.width, self.height = 1280, 720  # 720p HD
+        self.width = self.config.VIDEO_SETTINGS['width']
+        self.height = self.config.VIDEO_SETTINGS['height']
         
-        # Space theme settings
-        self.stars = self._generate_starfield(200)  # Generate 200 stars
-        self.nebula_colors = [
-            (25, 25, 112),   # Midnight blue
-            (75, 0, 130),    # Indigo
-            (138, 43, 226),  # Blue violet
-            (72, 61, 139),   # Dark slate blue
-            (106, 90, 205)   # Slate blue
-        ]
-        self.cosmic_colors = {
-            'bass': (255, 215, 0),      # Gold
-            'low_mid': (0, 191, 255),   # Deep sky blue
-            'high_mid': (138, 43, 226), # Blue violet
-            'treble': (255, 255, 255)   # White
-        }
+        # Space theme settings from config
+        self.stars = self._generate_starfield(self.config.VISUAL_SETTINGS['num_stars'])
         
         # Pre-load and resize the space image for performance
         self.space_img = self._load_space_image()
@@ -92,8 +114,8 @@ class SpaceMusicVisualizer:
             space_img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
             
             if space_img is not None:
-                # Calculate new dimensions (100 pixels wide, maintain aspect ratio)
-                target_width = 200
+                # Calculate new dimensions (from config, maintain aspect ratio)
+                target_width = self.config.VISUAL_SETTINGS['space_image_width']
                 height, width = space_img.shape[:2]
                 aspect_ratio = height / width
                 target_height = int(target_width * aspect_ratio)
@@ -152,8 +174,8 @@ class SpaceMusicVisualizer:
     
     def _create_space_background(self, frame_idx):
         """Create a space background with nebula and stars"""
-        # Start with deep space color
-        frame = np.full((self.height, self.width, 3), (5, 5, 20), dtype=np.uint8)
+        # Start with background color from palette
+        frame = np.full((self.height, self.width, 3), self.background_base, dtype=np.uint8)
         
         # Add nebula effect
         for i in range(3):
@@ -190,7 +212,7 @@ class SpaceMusicVisualizer:
             planet_radius = int(planet_radius * 1.3)
         
         # Limit maximum radius to prevent filling entire frame
-        max_radius = min(self.width, self.height) // 4  # Max 1/4 of smallest dimension
+        max_radius = int(min(self.width, self.height) * self.config.VISUAL_SETTINGS['max_planet_radius_ratio'])
         planet_radius = min(planet_radius, max_radius)
         
         # Determine color based on which frequency band has the highest energy
@@ -228,7 +250,7 @@ class SpaceMusicVisualizer:
     
     def _draw_cosmic_bars(self, frame, center_x, center_y, band_energies, is_beat, frame_idx):
         """Draw cosmic energy bars around the galaxy"""
-        num_bars = 48
+        num_bars = self.config.VISUAL_SETTINGS['num_cosmic_bars']
         base_radius = 200
         
         for i in range(num_bars):
@@ -257,7 +279,7 @@ class SpaceMusicVisualizer:
     
     def _draw_particles(self, frame, band_energies, frame_idx):
         """Draw floating particles that respond to music"""
-        num_particles = 50
+        num_particles = self.config.VISUAL_SETTINGS['num_particles']
         treble_energy = band_energies.get('treble', 0)
         
         for i in range(num_particles):
@@ -309,9 +331,9 @@ class SpaceMusicVisualizer:
                        (50 + i, self.height - 50 + i), cv2.FONT_HERSHEY_SIMPLEX, 1.2, 
                        (color_intensity, color_intensity + 20, color_intensity + 40), 3)
         
-        # Main bottom text with cosmic purple color
+        # Main bottom text with color from palette
         cv2.putText(frame, bottom_text, 
-                   (50, self.height - 50), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 200, 50), 3)
+                   (50, self.height - 50), cv2.FONT_HERSHEY_SIMPLEX, 1.2, self.text_color, 3)
     
     def generate_video(self):
         """Generate the complete video using MoviePy directly"""
@@ -352,8 +374,8 @@ class SpaceMusicVisualizer:
         final_video.write_videofile(
             self.output_file, 
             fps=self.fps, 
-            codec='libx264', 
-            audio_codec='aac',
+            codec=self.config.VIDEO_SETTINGS['codec'], 
+            audio_codec=self.config.VIDEO_SETTINGS['audio_codec'],
             temp_audiofile='temp-audio.m4a',
             remove_temp=True
         )
@@ -389,18 +411,59 @@ def get_audio_files():
     return audio_files
 
 def main():
-    audio_files = get_audio_files()
+    parser = argparse.ArgumentParser(description='Space Music Visualizer with customizable color palettes')
+    parser.add_argument('--palette', '-p', 
+                       default='cool',
+                       help='Color palette to use for visualization')
+    parser.add_argument('--list-palettes', '-l', 
+                       action='store_true',
+                       help='List all available color palettes')
+    parser.add_argument('--audio-file', '-a',
+                       help='Specific audio file to process (if not provided, processes all files in audio/ directory)')
+    parser.add_argument('--inverted', '-i',
+                       action='store_true',
+                       help='Use inverted color configuration (config_inverted.py)')
     
-    if not audio_files:
-        print("No audio files found in the audio/ directory!")
-        print("Supported formats: .mp3, .wav, .flac, .m4a, .aac, .ogg")
+    args = parser.parse_args()
+    
+    # Load the appropriate config module
+    config_module = load_config_module(use_inverted=args.inverted)
+    
+    # List palettes if requested
+    if args.list_palettes:
+        print("Available color palettes:")
+        for palette in config_module.list_palettes():
+            print(f"  - {palette}")
         return
+    
+    # Get audio files
+    if args.audio_file:
+        if not os.path.exists(args.audio_file):
+            print(f"Error: Audio file '{args.audio_file}' not found!")
+            return
+        audio_files = [args.audio_file]
+    else:
+        audio_files = get_audio_files()
+        if not audio_files:
+            print("No audio files found in the audio/ directory!")
+            print("Supported formats: .mp3, .wav, .flac, .m4a, .aac, .ogg")
+            print("Use --audio-file to specify a specific file, or --list-palettes to see available color themes.")
+            return
     
     print(f"Found {len(audio_files)} audio file(s) to process:")
     for audio_file in audio_files:
         print(f"  - {audio_file}")
     
-    print("\nStarting space music visualizer generation...")
+    # Validate palette
+    try:
+        config_module.get_palette(args.palette)
+    except ValueError as e:
+        print(f"Error: {e}")
+        return
+    
+    config_type = "inverted" if args.inverted else "normal"
+    print(f"\nUsing {config_type} color configuration with palette: {args.palette}")
+    print("Starting space music visualizer generation...")
     
     # Ensure output directory exists
     output_dir = "output"
@@ -409,20 +472,20 @@ def main():
     for i, audio_file in enumerate(audio_files, 1):
         # Get the base name without extension for output file naming
         base_name = os.path.splitext(os.path.basename(audio_file))[0]
-        output_file = os.path.join(output_dir, f"{base_name}_Visualizer.mp4")
+        output_file = os.path.join(output_dir, f"{base_name}_{args.palette}_Visualizer.mp4")
         
         print(f"\n[{i}/{len(audio_files)}] Processing: {audio_file}")
         print(f"Output will be saved as: {output_file}")
         
         try:
-            visualizer = SpaceMusicVisualizer(audio_file, output_file)
+            visualizer = SpaceMusicVisualizer(audio_file, output_file, args.palette, config_module)
             visualizer.generate_video()
             print(f"✓ Completed: {output_file}")
         except Exception as e:
             print(f"✗ Error processing {audio_file}: {str(e)}")
             continue
     
-    print(f"\nAll visualizers complete! Processed {len(audio_files)} file(s).")
+    print(f"\nAll visualizers complete! Processed {len(audio_files)} file(s) with '{args.palette}' palette.")
 
 if __name__ == "__main__":
     main()
