@@ -390,19 +390,19 @@ DEFAULT_PALETTE = 'cool'
 # Video settings
 VIDEO_SETTINGS = {
     'fps': 30,
-    'width': 1280,
-    'height': 720,
+    'width': 1920,
+    'height': 1080,
     'codec': 'libx264',
     'audio_codec': 'aac'
 }
 
 # Visual settings
 VISUAL_SETTINGS = {
-    'num_stars': 200,
-    'num_particles': 50,
-    'num_cosmic_bars': 48,
+    'num_stars': 300,  # Increased for higher resolution
+    'num_particles': 75,  # Increased for higher resolution
+    'num_cosmic_bars': 256,  # Increased for higher resolution
     'max_planet_radius_ratio': 0.25,  # Max planet radius as fraction of smallest dimension
-    'space_image_width': 200
+    'space_image_width': 300  # Increased for higher resolution
 }
 
 def get_palette(palette_name):

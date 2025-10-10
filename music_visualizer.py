@@ -164,8 +164,8 @@ class SpaceMusicVisualizer:
         # Add cosmic frequency bars (like energy beams)
         self._draw_cosmic_bars(frame, center_x, center_y, band_energies, is_beat, frame_idx)
         
-        # Add floating particles
-        self._draw_particles(frame, band_energies, frame_idx)
+        # # Add floating particles
+        # self._draw_particles(frame, band_energies, frame_idx)
         
         # Add title with space font
         self._draw_title(frame, frame_time)
@@ -251,7 +251,7 @@ class SpaceMusicVisualizer:
     def _draw_cosmic_bars(self, frame, center_x, center_y, band_energies, is_beat, frame_idx):
         """Draw cosmic energy bars around the galaxy"""
         num_bars = self.config.VISUAL_SETTINGS['num_cosmic_bars']
-        base_radius = 200
+        base_radius = 300
         
         for i in range(num_bars):
             angle = 2 * math.pi * i / num_bars + frame_idx * 0.02  # Rotate over time
